@@ -6,9 +6,10 @@ interface SmartRoutesProps {
   pickup: string;
   dropoff: string;
   prediction: any;
+  onBookRide: (option: any) => void;
 }
 
-export default function SmartRoutes({ pickup, dropoff, prediction }: SmartRoutesProps) {
+export default function SmartRoutes({ pickup, dropoff, prediction, onBookRide }: SmartRoutesProps) {
   // Multimodal suggestions based on pickup & dropoff
   const suggestions = [
     {
@@ -131,6 +132,22 @@ export default function SmartRoutes({ pickup, dropoff, prediction }: SmartRoutes
                       <span className="text-[9px] text-zinc-500 uppercase font-bold tracking-wider">AI Savings</span>
                       <span className="font-black text-cyan-400 mt-0.5">Save {route.savings}</span>
                     </div>
+                  </div>
+
+                  <div className="flex justify-end mt-2.5 pt-2.5 border-t border-dashed border-zinc-800/40">
+                    <button
+                      onClick={() => onBookRide({
+                        name: route.title,
+                        provider: route.id === 'multimodal' ? 'Aether' : route.id === 'walk-saver' ? 'Ola' : 'Uber',
+                        fare: parseInt(route.cost.replace('₹', '')),
+                        duration: parseInt(route.time.replace(' mins', '')),
+                        surgeMultiplier: 1.0,
+                        stability: { cancellationProbability: 2, stabilityScore: 98, status: 'Stable' }
+                      })}
+                      className="px-3.5 py-1.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white text-[10px] font-bold rounded-lg font-outfit border-none cursor-pointer shadow-glow-purple"
+                    >
+                      Book Route Suggestion
+                    </button>
                   </div>
 
                 </div>

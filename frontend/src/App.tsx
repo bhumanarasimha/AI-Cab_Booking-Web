@@ -270,9 +270,9 @@ export default function App() {
         <div className="flex-1 overflow-hidden">
           {activeView === 'auth' && <Auth onAuthSuccess={handleAuthSuccess} />}
           {activeView === 'matching' && <CommuteMatching />}
-          {activeView === 'insights' && <AIInsights prediction={prediction} />}
+          {activeView === 'insights' && <AIInsights prediction={prediction} onBookRide={triggerBooking} />}
           {activeView === 'comparison' && <FullComparison prediction={prediction} onBookRide={triggerBooking} />}
-          {activeView === 'routes' && <SmartRoutes pickup={pickup} dropoff={dropoff} prediction={prediction} />}
+          {activeView === 'routes' && <SmartRoutes pickup={pickup} dropoff={dropoff} prediction={prediction} onBookRide={triggerBooking} />}
           {activeView === 'profile' && <ProfileEngine onProfileUpdate={fetchProfile} />}
           {activeView === 'admin' && <AdminTuner />}
 
@@ -418,6 +418,19 @@ export default function App() {
                                     style={{ width: `${opt.stability.stabilityScore}%` }}
                                   ></div>
                                 </div>
+                              </div>
+
+                              <div className="flex justify-between items-center mt-1.5 pt-2 border-t border-dashed border-zinc-900/50">
+                                <span className="text-[9px] text-zinc-550">{opt.stability.cancellationProbability}% cancel risk</span>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    triggerBooking(opt);
+                                  }}
+                                  className="px-2.5 py-1 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white text-[9px] font-bold rounded-lg font-outfit border-none cursor-pointer"
+                                >
+                                  Book
+                                </button>
                               </div>
                             </div>
                           );

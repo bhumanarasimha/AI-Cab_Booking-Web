@@ -3,9 +3,10 @@ import { BrainCircuit, Sparkles, TrendingUp, Info, HelpCircle, AlertCircle, Cloc
 
 interface AIInsightsProps {
   prediction: any;
+  onBookRide: (option: any) => void;
 }
 
-export default function AIInsights({ prediction }: AIInsightsProps) {
+export default function AIInsights({ prediction, onBookRide }: AIInsightsProps) {
   // If no prediction yet, show high-fidelity mock data for CBD to ITPL so the UI is always filled with premium visual state.
   const activePrediction = prediction || {
     bestRide: {
@@ -114,6 +115,20 @@ export default function AIInsights({ prediction }: AIInsightsProps) {
                 <p className="text-[10px] text-zinc-500 leading-normal">Cancellation risk capped below {bestRide.stability.cancellationProbability}% based on real-time drivers.</p>
               </div>
 
+            </div>
+
+            {/* Direct Booking CTA */}
+            <div className="flex justify-between items-center border-t border-zinc-900/60 pt-4 mt-1">
+              <div>
+                <span className="text-[10px] text-zinc-500 uppercase font-bold tracking-wider block">Recommended Dispatch</span>
+                <span className="text-xs font-mono text-zinc-350">₹{bestRide.fare} • {bestRide.duration} mins • {bestRide.name}</span>
+              </div>
+              <button
+                onClick={() => onBookRide(bestRide)}
+                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white text-xs font-bold rounded-xl font-outfit border-none cursor-pointer shadow-glow-purple transition-all"
+              >
+                Book best ride now
+              </button>
             </div>
           </div>
 
